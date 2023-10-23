@@ -1,22 +1,51 @@
 import { FolderStructure } from "@/app/projects/filexplorer/page";
 import { Button } from "@/components/ui/button";
-import { Folder, File } from "lucide-react";
+import {
+  Folder,
+  File,
+  Trash2,
+  Pencil,
+  FilePlus,
+  FolderPlus,
+} from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 
-export default function MyFolder({ explorer }: { explorer: FolderStructure }) {
+export default function MyFolder({
+  explorer,
+  handleInsertion,
+  handleDeletion,
+  handleUpdation,
+}: {
+  explorer: FolderStructure;
+  handleInsertion: (folderId: string, item: string, isFolder: boolean) => void;
+  handleDeletion: (folderId: string) => void;
+  handleUpdation: (folderId: string, item: string) => void;
+}) {
   const [isExpandalble, setIsExpandable] = useState(false);
   const [showInput, setShowInput] = useState({
     isVisible: false,
     isFolder: false,
   });
+  const [showFileEdit, setShowFileEdit] = useState(false);
 
   const handleFileAdd = (e: KeyboardEvent<HTMLInputElement>) => {
     const target = e.target as HTMLTextAreaElement;
     if (e.key === "Enter" && target.value) {
-      //add logic
+      handleInsertion(explorer.id, target.value, showInput.isFolder);
       setShowInput({ ...showInput, isVisible: false });
     }
   };
+
+  const handleFileDelete = (e: Event) => {};
+
+  const handleFileUpdate = (e: KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLTextAreaElement;
+    if (e.key === "Enter" && target.value) {
+      handleUpdation(explorer.id, target.value);
+      setShowFileEdit(false);
+    }
+  };
+
   const handleInput = (fileType: boolean) => {
     setIsExpandable(true);
     setShowInput({
@@ -24,6 +53,7 @@ export default function MyFolder({ explorer }: { explorer: FolderStructure }) {
       isFolder: fileType,
     });
   };
+
   if (explorer.isFolder) {
     return (
       <div>
@@ -32,23 +62,49 @@ export default function MyFolder({ explorer }: { explorer: FolderStructure }) {
             className="flex items-center cursor-pointer mr-4"
             onClick={() => setIsExpandable(!isExpandalble)}
           >
-            <Folder size={20} className="m-1" /> <span>{explorer.name}</span>
+            <Folder size={20} className="m-1" />{" "}
+            {showFileEdit ? (
+              <input
+                className="mx-2"
+                placeholder="Edit content..."
+                autoFocus
+                type="text"
+                onBlur={() => setShowFileEdit(false)}
+                onKeyDown={handleFileUpdate}
+              />
+            ) : (
+              <span>{explorer.name}</span>
+            )}
           </div>
 
-          <div>
+          <div className="flex items-center justify-center">
             <Button
               className="m-1 w-18 h-6"
               size={"sm"}
               onClick={() => handleInput(true)}
             >
-              Folder +
+              <FolderPlus size={20} />
             </Button>
             <Button
               size={"sm"}
-              className="w-18 h-6"
+              className=" m-1 w-18 h-6"
               onClick={() => handleInput(false)}
             >
-              File +
+              <FilePlus size={20} />
+            </Button>
+            <Button
+              size={"sm"}
+              className="m-1 w-18 h-6"
+              onClick={() => handleDeletion(explorer.id)}
+            >
+              <Trash2 size={20} />
+            </Button>
+            <Button
+              size={"sm"}
+              className="m-1 w-18 h-6"
+              onClick={() => setShowFileEdit(true)}
+            >
+              <Pencil size={20} />
             </Button>
           </div>
         </div>
@@ -67,7 +123,13 @@ export default function MyFolder({ explorer }: { explorer: FolderStructure }) {
         ) : null}
         <div className={`${isExpandalble ? "" : "hidden"} ml-4`}>
           {explorer.items.map((item) => (
-            <MyFolder explorer={item} key={item.id} />
+            <MyFolder
+              explorer={item}
+              key={item.id}
+              handleInsertion={handleInsertion}
+              handleDeletion={handleDeletion}
+              handleUpdation={handleUpdation}
+            />
           ))}
         </div>
       </div>
@@ -75,7 +137,33 @@ export default function MyFolder({ explorer }: { explorer: FolderStructure }) {
   } else
     return (
       <span className=" flex my-2 ml-2">
-        <File size={20} /> {explorer.name}
+        <File size={20} />{" "}
+        {showFileEdit ? (
+          <input
+            className="mx-2"
+            placeholder="Edit content..."
+            autoFocus
+            type="text"
+            onBlur={() => setShowFileEdit(false)}
+            onKeyDown={handleFileUpdate}
+          />
+        ) : (
+          <span>{explorer.name}</span>
+        )}
+        <Button
+          size={"sm"}
+          className="m-1 w-18 h-6"
+          onClick={() => handleDeletion(explorer.id)}
+        >
+          <Trash2 size={20} />
+        </Button>
+        <Button
+          size={"sm"}
+          className="m-1 w-18 h-6"
+          onClick={() => setShowFileEdit(true)}
+        >
+          <Pencil size={20} />
+        </Button>
       </span>
     );
 }

@@ -2,6 +2,7 @@
 import { explorer } from "@/data/folderStructure";
 import { useState } from "react";
 import MyFolder from "@/components/folder";
+import useTraverseTree from "@/hooks/use-traverse-tree";
 
 export type FolderStructure = {
   id: string;
@@ -25,8 +26,37 @@ export type FolderStructure = {
   }[];
 };
 
+export type TreeNode = {};
 export default function FolderLayout() {
   const [data, setData] = useState(explorer);
+  const { insertNode, deleteNode, updateNode } = useTraverseTree();
 
-  return <MyFolder explorer={data} />;
+  const handleInsertNode = (
+    folderId: string,
+    item: string,
+    isFolder: boolean,
+  ) => {
+    const finalTree = insertNode(explorer, folderId, item, isFolder);
+
+    setData(finalTree);
+  };
+
+  const handleDeleteNode = (folderId: string) => {
+    // const finalTree = deleteNode(explorer, folderId);
+    // setData(finalTree);
+  };
+
+  const handleUpdateNode = (folderId: string, item: string) => {
+    const finalTree = updateNode(explorer, folderId, item);
+
+    setData(finalTree);
+  };
+  return (
+    <MyFolder
+      handleInsertion={handleInsertNode}
+      handleDeletion={handleDeleteNode}
+      handleUpdation={handleUpdateNode}
+      explorer={data}
+    />
+  );
 }
