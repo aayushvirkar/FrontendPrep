@@ -36,21 +36,22 @@ export default function FolderLayout() {
     item: string,
     isFolder: boolean,
   ) => {
-    const finalTree = insertNode(explorer, folderId, item, isFolder);
+    const finalTree = insertNode(data, folderId, item, isFolder);
 
     setData(finalTree);
   };
 
   const handleDeleteNode = (folderId: string) => {
-    // const finalTree = deleteNode(explorer, folderId);
-    // setData(finalTree);
+    const finalTree = deleteNode(data, folderId);
+    setData(finalTree);
   };
 
   const handleUpdateNode = (folderId: string, item: string) => {
-    const finalTree = updateNode(explorer, folderId, item);
+    const finalTree = updateNode(data, folderId, item);
 
     setData(finalTree);
   };
+
   return (
     <MyFolder
       handleInsertion={handleInsertNode}

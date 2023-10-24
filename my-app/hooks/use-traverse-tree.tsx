@@ -1,9 +1,6 @@
 import { FolderStructure } from "@/app/projects/filexplorer/page";
-import { useId } from "react";
 const useTraverseTree = () => {
   const memo = new Map(); // Memoization table to store computed results
-
-  const id = useId();
   function insertNode(
     tree: FolderStructure,
     folderId: string,
@@ -14,23 +11,25 @@ const useTraverseTree = () => {
       return memo.get(tree.id);
     }
     if (tree.id === folderId && tree.isFolder) {
+      const treeClone = structuredClone(tree);
+
       if (isFolder) {
-        tree.items.unshift({
-          id: id,
+        treeClone.items.unshift({
+          id: new Date().getTime().toString(),
           name: item,
           isFolder,
           items: [],
         });
       } else {
-        tree.items.push({
-          id: id,
+        treeClone.items.push({
+          id: new Date().getTime().toString(),
           name: item,
           isFolder,
           items: [],
         });
       }
-      memo.set(tree.id, tree); // Store the result in the memo table
-      return tree;
+      memo.set(treeClone.id, treeClone); // Store the result in the memo table
+      return treeClone;
     }
 
     const latestNode: FolderStructure[] = tree.items.map((itemObj) => {
@@ -41,8 +40,6 @@ const useTraverseTree = () => {
     memo.set(tree.id, updatedTree);
     return updatedTree;
   }
-
-  function deleteNode(tree: FolderStructure, folderId: string) {}
 
   function updateNode(tree: FolderStructure, folderId: string, item: string) {
     if (tree.id == folderId) {
@@ -57,6 +54,22 @@ const useTraverseTree = () => {
     const updateTree = { ...tree, items: latestNode };
 
     return updateTree;
+  }
+
+  function deleteNode(tree: FolderStructure, folderId: string) {
+    const deletedItems = tree.items.filter(
+      (itemObj) => itemObj.id !== folderId,
+    );
+
+    if (deletedItems.length === tree.items.length) {
+      const temp: FolderStructure[] = tree.items.map((itemObj) =>
+        deleteNode(itemObj, folderId),
+      );
+
+      return { ...tree, items: temp };
+    }
+
+    return { ...tree, items: deletedItems };
   }
 
   return { insertNode, deleteNode, updateNode };
