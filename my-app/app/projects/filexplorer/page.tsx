@@ -53,11 +53,13 @@ export default function FolderLayout() {
   };
 
   return (
-    <MyFolder
-      handleInsertion={handleInsertNode}
-      handleDeletion={handleDeleteNode}
-      handleUpdation={handleUpdateNode}
-      explorer={data}
-    />
+    <div className="flex justify-center items-center w-screen h-screen">
+      <MyFolder
+        handleInsertion={handleInsertNode}
+        handleDeletion={handleDeleteNode}
+        handleUpdation={handleUpdateNode}
+        explorer={data}
+      />
+    </div>
   );
 }
