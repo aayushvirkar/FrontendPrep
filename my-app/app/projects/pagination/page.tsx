@@ -35,7 +35,7 @@ export default async function ProductPage({
   const limit =
     typeof searchParams.limit === "string" ? Number(searchParams.limit) : 10;
 
-  const skip = (page - 1) * limit;
+  const skip = page * limit - limit;
 
   const data: { products: Products[] } = await getData(limit, skip);
 
