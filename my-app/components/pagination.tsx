@@ -3,7 +3,6 @@
 import { Products } from "@/app/projects/pagination/page";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -17,19 +16,15 @@ export default function Pagination({
   const page = searchParams.get("page");
   const pageNumber = typeof page === "string" ? Number(page) : 1;
 
-  const [currentPage, setCurrentPage] = useState(pageNumber);
   const router = useRouter();
   const handleButtonClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
     router.push(`/projects/pagination?page=${pageNumber}&limit=10`);
   };
   const handlePageChange = (pageDirection: boolean) => {
     if (pageDirection) {
-      setCurrentPage((currPage) => currPage + 1);
-      router.push(`/projects/pagination?page=${currentPage + 1}&limit=10`);
+      router.push(`/projects/pagination?page=${pageNumber + 1}&limit=10`);
     } else {
-      setCurrentPage((currPage) => currPage - 1);
-      router.push(`/projects/pagination?page=${currentPage - 1}&limit=10`);
+      router.push(`/projects/pagination?page=${pageNumber - 1}&limit=10`);
     }
   };
 
@@ -63,7 +58,7 @@ export default function Pagination({
           <Button
             key={page}
             className="mx-4 my-2 py-2 px-4"
-            variant={page === currentPage ? "destructive" : "default"}
+            variant={page === pageNumber ? "destructive" : "default"}
             onClick={() => handleButtonClick(page)}
           >
             {page}
