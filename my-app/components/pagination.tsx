@@ -30,7 +30,7 @@ export default function Pagination({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center h-4/5">
+      <div className="flex flex-wrap justify-center items-center h-4/5 mx-52">
         {data.products.map((item) => {
           return (
             <div className="bg-slate-400 m-4 px-6 py-7" key={item.id}>
@@ -49,11 +49,15 @@ export default function Pagination({
           );
         })}
       </div>
+
       <div className="flex justify-center items-center">
-        <ArrowLeft
-          className="cursor-pointer hover:scale-105"
+        <Button
           onClick={() => handlePageChange(false)}
-        />
+          disabled={pageNumber === 1}
+        >
+          <ArrowLeft className="hover:scale-105" />
+        </Button>
+
         {pages.map((page) => (
           <Button
             key={page}
@@ -64,10 +68,12 @@ export default function Pagination({
             {page}
           </Button>
         ))}
-        <ArrowRight
-          className="cursor-pointer hover:scale-105"
+        <Button
           onClick={() => handlePageChange(true)}
-        />
+          disabled={pageNumber === 10}
+        >
+          <ArrowRight className="cursor-pointer hover:scale-105" />
+        </Button>
       </div>
     </>
   );
