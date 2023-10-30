@@ -19,7 +19,7 @@ export default function ProgressBar({
     }, 100);
 
     return () => clearInterval(id);
-  }, [percentage]);
+  }, [percentage, value]);
 
   if (percentage === value || percentage === 100) {
     onComplete();
