@@ -28,14 +28,14 @@ export default function ProgressBar({
 
   return (
     <div
-      className={`relative text-center w-[600px] h-[30px]  bg-gray-300 rounded-full overflow-hidden`}
+      className={`relative h-[30px] w-[600px] overflow-hidden  rounded-full bg-gray-300 text-center`}
     >
       <div
         style={{
           transform: `scaleX(${percentage / 100})`,
           transformOrigin: "left",
         }}
-        className={`bg-green-600  h-full `}
+        className={`h-full  bg-green-600 `}
       ></div>
       <span style={{ color: textColor }} className="absolute top-0">
         {percentage.toFixed()} %
