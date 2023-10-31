@@ -21,8 +21,8 @@ export default function Counter() {
   }, [countState]);
 
   return (
-    <div className="flex justify-center items-center h-96">
-      <div className="flex justify-center items-center flex-col bg-slate-300 h-48 w-96">
+    <div className="flex h-96 items-center justify-center">
+      <div className="flex h-48 w-96 flex-col items-center justify-center bg-slate-300">
         <span>{count}</span>
         <div className="my-4">
           <Button

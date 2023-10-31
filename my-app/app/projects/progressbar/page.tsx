@@ -6,8 +6,8 @@ export default function ProgressBarWrapper() {
   const [isComplete, setIsComplete] = useState(false);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className=" flex flex-col justify-center items-center w-[800px] h-[800px] bg-slate-500">
+    <div className="flex h-screen items-center justify-center">
+      <div className=" flex h-[800px] w-[800px] flex-col items-center justify-center bg-slate-500">
         <ProgressBar value={80} onComplete={() => setIsComplete(true)} />
         <div className="my-2">{isComplete ? "Done!" : "Loading.."}</div>
       </div>

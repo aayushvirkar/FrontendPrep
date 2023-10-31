@@ -57,9 +57,9 @@ export default function MyFolder({
   if (explorer.isFolder) {
     return (
       <div>
-        <div className="flex justify-between bg-gray-300 m-2">
+        <div className="m-2 flex justify-between bg-gray-300">
           <div
-            className="flex items-center cursor-pointer mr-4"
+            className="mr-4 flex cursor-pointer items-center"
             onClick={() => setIsExpandable(!isExpandalble)}
           >
             <Folder size={20} className="m-1" />{" "}
@@ -79,7 +79,7 @@ export default function MyFolder({
 
           <div className="flex items-center justify-center">
             <Button
-              className="m-1 w-18 h-6"
+              className="w-18 m-1 h-6"
               size={"sm"}
               onClick={() => handleInput(true)}
             >
@@ -87,21 +87,21 @@ export default function MyFolder({
             </Button>
             <Button
               size={"sm"}
-              className=" m-1 w-18 h-6"
+              className=" w-18 m-1 h-6"
               onClick={() => handleInput(false)}
             >
               <FilePlus size={20} />
             </Button>
             <Button
               size={"sm"}
-              className="m-1 w-18 h-6"
+              className="w-18 m-1 h-6"
               onClick={() => handleDeletion(explorer.id)}
             >
               <Trash2 size={20} />
             </Button>
             <Button
               size={"sm"}
-              className="m-1 w-18 h-6"
+              className="w-18 m-1 h-6"
               onClick={() => setShowFileEdit(true)}
             >
               <Pencil size={20} />
@@ -136,7 +136,7 @@ export default function MyFolder({
     );
   } else
     return (
-      <span className=" flex my-2 ml-2">
+      <span className=" my-2 ml-2 flex">
         <File size={20} />{" "}
         {showFileEdit ? (
           <input
@@ -152,14 +152,14 @@ export default function MyFolder({
         )}
         <Button
           size={"sm"}
-          className="m-1 w-18 h-6"
+          className="w-18 m-1 h-6"
           onClick={() => handleDeletion(explorer.id)}
         >
           <Trash2 size={20} />
         </Button>
         <Button
           size={"sm"}
-          className="m-1 w-18 h-6"
+          className="w-18 m-1 h-6"
           onClick={() => setShowFileEdit(true)}
         >
           <Pencil size={20} />

@@ -3,5 +3,9 @@ export default function ProjectLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="mx-20">{children}</div>
+    </div>
+  );
 }
