@@ -100,10 +100,10 @@ export default function TicTacToe() {
           return (
             <Button
               onClick={() => setSquares(history[index])}
-              className="my-2 ml-2"
+              className="my-2 ml-2 text-xs"
               size={"sm"}
             >
-              Go to move {index}
+              Go to {index === 0 ? "the Start" : `move ${index}`}
             </Button>
           );
         })}
