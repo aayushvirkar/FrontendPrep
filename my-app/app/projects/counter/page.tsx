@@ -1,24 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Counter() {
   const [count, setCount] = useState(0);
-  const [countState, setCountState] = useState("Stop");
+  const timerId = useRef<NodeJS.Timeout>();
 
-  function incrementCount() {
-    setCount((count) => count + 1);
+  function handleStartButton() {
+    timerId.current = setInterval(() => {
+      setCount((prevCount) => prevCount + 1);
+    }, 100);
   }
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (countState === "Start") {
-      timer = setInterval(() => {
-        incrementCount();
-      }, 500);
-    }
-    return () => clearInterval(timer);
-  }, [countState]);
+  function handleStopButton() {
+    clearInterval(timerId.current);
+  }
+  function handleResetButton() {
+    clearInterval(timerId.current);
+    setCount(0);
+  }
 
   return (
     <div className="flex h-96 items-center justify-center">
@@ -28,23 +27,18 @@ export default function Counter() {
           <Button
             className="mx-2"
             variant={"secondary"}
-            onClick={() => setCountState("Start")}
+            onClick={handleStartButton}
           >
             Start
           </Button>
           <Button
             className="mx-2"
             variant={"destructive"}
-            onClick={() => setCountState("Pause")}
+            onClick={handleStopButton}
           >
             Stop
           </Button>
-          <Button
-            className="mx-2"
-            onClick={() => {
-              setCountState("Reset"), setCount(0);
-            }}
-          >
+          <Button className="mx-2" onClick={handleResetButton}>
             Reset
           </Button>
         </div>
